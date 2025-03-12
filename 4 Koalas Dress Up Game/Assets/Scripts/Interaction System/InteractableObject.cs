@@ -6,6 +6,13 @@ using UnityEngine;
 //Component that lets an object output a message to the console which interacted with by the player
 public class InteractableObject : MonoBehaviour
 {
+
+    public struct npcInteractEvent
+    {
+        public Vector2 playerPosition;
+        public string npcName;
+        public float timeConversed;
+    }
     //The string that will be output to the console when the interaction is triggered
     public string interactionResponse;
 
@@ -42,5 +49,15 @@ public class InteractableObject : MonoBehaviour
     public virtual void Interact()
     {
         Debug.Log(gameObject.name + ": \"" + interactionResponse + "\"");
+        TelemetryLogger.Log(this,"Player Interact: NPC ");
+
+        var data = new npcInteractEvent()
+        {
+            playerPosition = transform.position
+
+        };
+
+        TelemetryLogger.Log(this, "playerInteract", data);
+
     }
 }
